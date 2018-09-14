@@ -1,0 +1,10 @@
+#!/bin/bash
+mkdir -p $HOME/ops
+img="${1:-huntprod/ark}" ; shift
+_who="$(git config user.email)"
+docker run -it \
+           -v $HOME/ops:/ark \
+           -e "GIT_NAME=$(git config user.name)" \
+           -e "GIT_EMAIL=$(git config user.email)" \
+           -e "ENV=${_who%%@*}" \
+           "$img" "$@"
